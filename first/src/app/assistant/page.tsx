@@ -87,17 +87,8 @@ export default function Assistant() {
       <div className="mainbox flex flex-col items-center">
         <div className="chatbox w-2/3 rounded-xl border-2 min-h-70 p-10 m-5 flex flex-col items-center">
           <div className="chatcontent w-3/4 border-4 min-h-80 rounded-xl m-5">
-            {/* {showImage && (
-              <Image
-                className="rounded-2xl"
-                src={image}
-                width={300}
-                height={300}
-                alt="My Image"
-              />
-            )} */}
             <ScrollArea className="w-full rounded-md border">
-              <div className="flex w-max space-x-4 p-4">
+              <div className="flex flex-col w-full space-x-4 p-4 max-h-80">
                 {messages.map((message, index) => (
                   <div
                     key={index}
@@ -111,7 +102,7 @@ export default function Assistant() {
                   </div>
                 ))}
               </div>
-              {/* <ScrollBar orientation="vertical" /> */}
+              <ScrollBar orientation="vertical" />
             </ScrollArea>
           </div>
           <form
@@ -135,7 +126,7 @@ export default function Assistant() {
             </Button>
           </div>
         </div>
-        <div className="detections w-2/3 rounded-xl border-2 min-h-70 p-5 m-5 flex flex-col items-center">
+        <div className="detections w-2/3 rounded-xl border-2 p-5 m-5 flex flex-col items-center">
           <Header styles="text-4xl" word1="" word2="Detections"></Header>
           <div className="detectionsbox w-2/3 rounded-xl border-2 min-h-70 p-10 m-5 items-center">
             <ScrollArea className="w-full rounded-md border">

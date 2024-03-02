@@ -1,9 +1,8 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import Annotated
 from detect import predict_image
-from chat import generate
+from chat import generate, load_model
 import shutil
 
 
@@ -20,6 +19,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+load_model()
 
 @app.get('/')
 def root():
@@ -40,16 +41,14 @@ def upload_file(upload_file: UploadFile = File(...)):
         }
     except Exception as e:
         return {"error": str(e)}
-
-
-
+    
 class Question(BaseModel):
     question: str
 
 @app.post('/chat/')
 def chat(question: Question):
     try:
-        result = generate(question.question)
-        return result
+        response = generate(question.question)
+        return response
     except Exception as e:
         return {"error": str(e)}

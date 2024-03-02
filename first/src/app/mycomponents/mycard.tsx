@@ -57,6 +57,7 @@ export default function MyCard({
           <Button className="w-1/2" variant="secondary">
             Check Availablity
           </Button>
+
           <Button className="w-1/2">Add to Garden</Button>
         </CardFooter>
       </Card>

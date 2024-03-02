@@ -2,13 +2,13 @@ from ultralytics import YOLO
 from pymongo import MongoClient
 
 image_paths = r"B:\PlantIT\api\images\5.jpg"
-model_loc = r"B:\PlantIT\api\best.pt"
-save_dir = r'B:\PlantIT\api\results'
+model_loc = "/Users/siddharth/Desktop/PlantGenie/api/best.pt"
+save_dir = "/Users/siddharth/Desktop/PlantGenie/api/results"
 
 #MongoDB connection
 client = MongoClient(port=27017)
 
-# database and collection
+# Step 2: Choose the database and collection
 db = client['plant_app']
 collection = db['plants']
 
