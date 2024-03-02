@@ -128,3 +128,8 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+
+# models
+mistral-7b-instruct-v0.2.Q5_K_S.gguf
+best.pt
