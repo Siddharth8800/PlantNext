@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
+import GardenCard from "../mycomponents/GardenCard";
 import axios from "axios";
 import { useContext } from "react";
 import { GardenContext } from "@/context/GardenContext";
@@ -107,7 +108,7 @@ export default function Garden() {
         <div className="w-5/6 rounded-xl border-2 min-h-70 p-10 m-5 flex flex-row items-center">
           <div className="flex w-max space-x-4 p-4">
             {garden.map((plant) => (
-              <MyCard
+              <GardenCard
                 key={plant.id}
                 id={plant.id}
                 name={plant.name}
