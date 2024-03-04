@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import Header from "../mycomponents/Header";
 import NavBar from "../mycomponents/NavBar";
 import MyCard from "../mycomponents/mycard";
@@ -10,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useState } from "react";
-import Image from "next/image";
+import { useLocalStorage } from "../mycomponents/useLocalStorage";
 import axios from "axios";
 
 export default function Assistant() {
@@ -79,6 +78,10 @@ export default function Assistant() {
       })
       .catch((error) => console.error("Error:", error));
   };
+
+  // Local Storage Management
+
+
 
   return (
     <>
