@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import GardenCard from "../mycomponents/GardenCard";
 import axios from "axios";
 import { useContext } from "react";
@@ -94,6 +95,24 @@ export default function Garden() {
       .catch((error) => console.error("Error:", error));
   };
 
+  const clearContext = () => {
+    setMessages([]);
+    setCardDataArray([]);
+
+    axios
+      .post("http://localhost:8000/clear_context/")
+      .then((response) => {
+        toast("Context cleared", {
+          description: "Context of your chat is cleared",
+          action: {
+            label: "Undo",
+            onClick: () => console.log("Undo"),
+          },
+        });
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
   return (
     <>
       <NavBar items={MainNav} />
@@ -151,6 +170,14 @@ export default function Garden() {
               className="rounded-lg border-2"
             />
             <Button type="submit">Submit</Button>
+            <Button
+              type="button"
+              variant="destructive"
+              className="w-1/4"
+              onClick={clearContext}
+            >
+              Clear Context
+            </Button>
           </form>
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="picture">Picture</Label>

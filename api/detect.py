@@ -2,8 +2,9 @@ from ultralytics import YOLO
 from pymongo import MongoClient
 
 image_paths = r"B:\PlantIT\api\images\5.jpg"
-model_loc = "/Users/siddharth/Desktop/PlantGenie/api/best.pt"
-save_dir = "/Users/siddharth/Desktop/PlantGenie/api/results"
+model_loc = r"B:\PlantIT\PlantNext\api\best.pt"
+save_dir = r"B:\PlantIT\PlantNext\api\images"
+disease_model = r"B:\PlantIT\PlantNext\api\bestDisease.pt"
 
 #MongoDB connection
 client = MongoClient(port=27017)
@@ -20,6 +21,13 @@ def predict_image(image_path):
     ans = collection.find_one({'id': cls})
     return ans
 
+
+def predict_disease(image_path):
+    model = YOLO(model=disease_model)
+    predictions = model.predict(source=image_path)
+    cls = int(predictions[0].boxes.cls[0].item())
+    ans = collection.find_one({'id': cls})
+    return ans
 
 # def predict_image(image_path):
 #     model = YOLO(model=model_loc)

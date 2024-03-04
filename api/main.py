@@ -2,7 +2,7 @@ from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from detect import predict_image
-from chat import generate, load_model
+from chat import generate, load_model, clear_context
 import shutil
 
 
@@ -50,5 +50,13 @@ def chat(question: Question):
     try:
         response = generate(question.question)
         return response
+    except Exception as e:
+        return {"error": str(e)}
+
+@app.post("/clear_context/")
+def clear_context():
+    try:
+        clear_context()
+        return {"message": "Context cleared"}
     except Exception as e:
         return {"error": str(e)}

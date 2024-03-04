@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useState } from "react";
+import { toast } from "sonner";
 import { useLocalStorage } from "../mycomponents/useLocalStorage";
 import axios from "axios";
 
@@ -17,6 +18,10 @@ export default function Assistant() {
     []
   );
   const [message, setMessage] = useState<string>("");
+  const [plantInfo, setPlantInfo] = useState<{
+    name: string;
+    description: string;
+  } | null>(null);
   const [image, setImage] = useState("");
   const [showImage, setShowImage] = useState(false);
   const [response, setResponse] = useState(null);
@@ -37,9 +42,12 @@ export default function Assistant() {
     };
     setMessages((prev) => [...prev, userMessage]);
     setMessage("");
+    const question = plantInfo
+      ? `Plant: ${plantInfo.name}, Description: ${plantInfo.description}, Message: ${message}`
+      : message;
 
     axios
-      .post("http://localhost:8000/chat", { question: message })
+      .post("http://localhost:8000/chat", { question })
       .then((response) => {
         const reply = {
           text:
@@ -79,9 +87,40 @@ export default function Assistant() {
       .catch((error) => console.error("Error:", error));
   };
 
-  // Local Storage Management
+  const clearContext = () => {
+    setMessages([]);
+    setCardDataArray([]);
 
+    axios
+      .post("http://localhost:8000/clear_context/")
+      .then((response) => {
+        toast("Context cleared", {
+          description: "Context of your chat is cleared",
+          action: {
+            label: "Undo",
+            onClick: () => console.log("Undo"),
+          },
+        });
+      })
+      .catch((error) => console.error("Error:", error));
+  };
 
+  const handleCardClick = (cardData) => {
+    let userMessage = {
+      text: `Plant: ${cardData.name}, Description: ${cardData.description}`,
+      sender: "user",
+      cardData,
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    toast("Plant added to Chat", {
+      description: "You are now chatting about this plant",
+      action: {
+        label: "Undo",
+        onClick: () => console.log("Undo"),
+      },
+    });
+  };
 
   return (
     <>
@@ -92,7 +131,7 @@ export default function Assistant() {
           <div className="chatcontent w-3/4 border-4 min-h-80 rounded-xl m-5">
             <ScrollArea className="w-full rounded-md border">
               <div className="flex flex-col w-full space-x-4 p-4 max-h-80">
-                {messages.map((message, index) => (
+                {/* {messages.map((message, index) => (
                   <div
                     key={index}
                     className={`message ${
@@ -102,6 +141,28 @@ export default function Assistant() {
                     } m-2 p-2 rounded-lg`}
                   >
                     <p>{message.text}</p>
+                  </div>
+                ))} */}
+
+                {messages.map((message, index) => (
+                  <div
+                    key={index}
+                    className={`message ${
+                      message.sender === "user"
+                        ? "bg-green-500 text-white self-end"
+                        : "bg-gray-500 text-white self-start"
+                    } m-2 p-2 rounded-lg`}
+                  >
+                    {message.cardData ? (
+                      <MyCard
+                        id={message.cardData.id}
+                        name={message.cardData.name}
+                        description={message.cardData.description}
+                        url={message.cardData.url}
+                      />
+                    ) : (
+                      <p>{message.text}</p>
+                    )}
                   </div>
                 ))}
               </div>
@@ -120,6 +181,14 @@ export default function Assistant() {
               className="rounded-lg border-2"
             />
             <Button type="submit">Submit</Button>
+            <Button
+              type="button"
+              variant="destructive"
+              className="w-1/4"
+              onClick={clearContext}
+            >
+              Clear Context
+            </Button>
           </form>
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="picture">Picture</Label>
@@ -141,6 +210,18 @@ export default function Assistant() {
                     name={cardData.name}
                     description={cardData.description}
                     url={cardData.url}
+                    onChatClick={() => {
+                      setPlantInfo({
+                        name: cardData.name,
+                        description: cardData.description,
+                      });
+                      handleCardClick({
+                        id: cardData.id,
+                        name: cardData.name,
+                        description: cardData.description,
+                        url: cardData.url,
+                      });
+                    }}
                   />
                 ))}
               </div>

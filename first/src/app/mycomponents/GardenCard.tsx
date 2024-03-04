@@ -50,18 +50,19 @@ export default function GardenCard({
   //   addToGarden(plant);
   // };
 
-// const removeFromGarden = () => {
-//   // Get the current garden data from local storage
-//   const currentGarden = JSON.parse(localStorage.getItem("garden") || "[]");
-//   // Find the index of the plant to be removed
-//   const plantIndex = currentGarden.findIndex((plant) => plant.id === id);
-//   // If the plant is found, remove it from the array
-//   if (plantIndex !== -1) {
-//     currentGarden.splice(plantIndex, 1);
-//   }
-//   // Store the updated garden data in local storage
-//   localStorage.setItem("garden", JSON.stringify(currentGarden));
-// };
+  // const removeFromGarden = () => {
+  //   // Get the current garden data from local storage
+  //   const currentGarden = JSON.parse(localStorage.getItem("garden") || "[]");
+  //   // Find the index of the plant to be removed
+  //   const plantIndex = currentGarden.findIndex((plant) => plant.id === id);
+  //   // If the plant is found, remove it from the array
+  //   if (plantIndex !== -1) {
+  //     currentGarden.splice(plantIndex, 1);
+  //   }
+  //   // Store the updated garden data in local storage
+  //   localStorage.setItem("garden", JSON.stringify(currentGarden));
+  // };
+  
 
   return (
     <>
@@ -80,7 +81,7 @@ export default function GardenCard({
           />
         </CardContent>
         <CardFooter>
-          <Button className="w-full">Chat</Button>
+          <Button className="w-full">Health Check</Button>
         </CardFooter>
         <CardFooter className="flex items-center justify-center space-x-3">
           <Button className="w-1/2" variant="destructive">
