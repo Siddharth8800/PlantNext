@@ -14,6 +14,15 @@ import GardenCard from "../mycomponents/GardenCard";
 import axios from "axios";
 import { useContext } from "react";
 import { GardenContext } from "@/context/GardenContext";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 export default function Garden() {
   const [garden, setGarden] = useState([]);
@@ -39,11 +48,6 @@ export default function Garden() {
   const [cardDataArray, setCardDataArray] = useState<
     { id: number; name: string; description: string; url: string }[]
   >([]);
-
-  const handleImage = (event) => {
-    setImage(URL.createObjectURL(event.target.files[0]));
-    setResponse(event.target.files[0]);
-  };
 
   const handleSendMessage = (event) => {
     event.preventDefault();
@@ -74,26 +78,29 @@ export default function Garden() {
     name: string;
     description: string;
   } | null>(null);
-  const handleClick = () => {
-    setShowImage(true);
-    const formData = new FormData();
-    formData.append("upload_file", response);
-    fetch("http://localhost:8000/uploadfile", {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        const { id, name, description } = data;
-        setCardData({ id, name, description });
-        setCardDataArray((prev) => [
-          ...prev,
-          { id, name, description, url: image },
-        ]);
-      })
-      .catch((error) => console.error("Error:", error));
-  };
+
+  // Add a new state variable for the API response
+  const [apiResponse, setApiResponse] = useState<string>("");
+
+ const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+ const handleClick = () => {
+   setShowImage(true);
+   const formData = new FormData();
+   formData.append("upload_file", response);
+   fetch("http://localhost:8000/detectdisease", {
+     method: "POST",
+     body: formData,
+   })
+     .then((res) => res.text()) // Change this line to handle a text response
+     .then((data) => {
+       console.log(data);
+       setApiResponse(data);
+       // Open the dialog
+       setIsDialogOpen(true);
+     })
+     .catch((error) => console.error("Error:", error));
+ };
 
   const clearContext = () => {
     setMessages([]);
@@ -181,10 +188,15 @@ export default function Garden() {
           </form>
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="picture">Picture</Label>
-            <Input id="picture" type="file" onChange={handleImage} />
+            <Input id="picture" type="file" />
             <Button type="button" onClick={handleClick}>
               Upload
             </Button>
+            {isDialogOpen && (
+              <Dialog>
+                <DialogContent>{apiResponse}</DialogContent>
+              </Dialog>
+            )}
           </div>
         </div>
       </div>
