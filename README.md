@@ -23,7 +23,7 @@ It leverages the power of Next.js for the frontend and FastAPI for the backend, 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/PlantNext.git
+git clone https://github.com/siddharth8800/PlantNext.git
 cd PlantNext
 ```
 2. Install the frontend dependencies:
