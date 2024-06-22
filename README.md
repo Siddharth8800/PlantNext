@@ -7,7 +7,7 @@ It leverages the power of Next.js for the frontend and FastAPI for the backend, 
 
 - **Garden Management**: Users can add, view, and manage their garden's plants through an intuitive interface.
 - **Chatbot**: A chatbot is available for users to ask questions related to plant care and receive instant advice.
-- **Image Recognition**: Users can upload images of their plants to detect potential diseases and receive suggestions for treatment.
+- **Image Recognition**: Users can upload images of their plants to detect potential diseases and receive suggestions for treatment. Yolov8 models are utilized for this purpose
 - **Responsive Design**: The application is fully responsive, ensuring a great user experience on both desktop and mobile devices.
 
 ## Getting Started
