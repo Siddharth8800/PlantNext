@@ -104,7 +104,7 @@ export default function MyCard({
               <DialogHeader>
                 <DialogTitle>Available Nurseries:</DialogTitle>
                 <DialogDescription>
-                  Here's a list of all the Nurseries close to you.
+                  Here is a list of all the Nurseries close to you.
                 </DialogDescription>
               </DialogHeader>
               <ScrollArea className="h-40 w-70 rounded-md border">
