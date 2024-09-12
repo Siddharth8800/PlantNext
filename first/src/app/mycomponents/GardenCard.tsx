@@ -111,7 +111,7 @@ export default function GardenCard({
               <DialogHeader>
                 <DialogTitle>Add Reminder</DialogTitle>
                 <DialogDescription>
-                  Specify details for reminder. Click save when you're done.
+                  Specify details for reminder. Click save when you are done.
                 </DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
