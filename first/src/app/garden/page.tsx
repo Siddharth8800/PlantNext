@@ -24,13 +24,36 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 
+type Plant = {
+  id: number;
+  name: string;
+  description: string;
+  url: string;
+};
+
+type Message = {
+  text: string;
+  sender: string;
+};
+
 export default function Garden() {
-  const [garden, setGarden] = useState([]);
+  const [garden, setGarden] = useState<Plant[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [message, setMessage] = useState<string>("");
+  const [image, setImage] = useState("");
+  const [showImage, setShowImage] = useState(false);
+  const [response, setResponse] = useState<File | null>(null);
+  const [cardDataArray, setCardDataArray] = useState<Plant[]>([]);
+  const [cardData, setCardData] = useState<Plant | null>(null);
+  const [apiResponse, setApiResponse] = useState<string>("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   useEffect(() => {
     // Get the garden data from local storage
     const storedGarden = JSON.parse(localStorage.getItem("garden") || "[]");
     setGarden(storedGarden);
   }, []);
+
   const clearGarden = () => {
     // Clear the garden data from local storage
     localStorage.removeItem("garden");
@@ -38,20 +61,9 @@ export default function Garden() {
     setGarden([]);
   };
 
-  const [messages, setMessages] = useState<{ text: string; sender: string }[]>(
-    []
-  );
-  const [message, setMessage] = useState<string>("");
-  const [image, setImage] = useState("");
-  const [showImage, setShowImage] = useState(false);
-  const [response, setResponse] = useState(null);
-  const [cardDataArray, setCardDataArray] = useState<
-    { id: number; name: string; description: string; url: string }[]
-  >([]);
-
-  const handleSendMessage = (event) => {
+  const handleSendMessage = (event: React.FormEvent) => {
     event.preventDefault();
-    const userMessage = {
+    const userMessage: Message = {
       text: message,
       sender: "user",
     };
@@ -61,7 +73,7 @@ export default function Garden() {
     axios
       .post("http://localhost:8000/chat", { question: message })
       .then((response) => {
-        const reply = {
+        const reply: Message = {
           text:
             typeof response.data === "string"
               ? response.data
@@ -73,34 +85,23 @@ export default function Garden() {
       .catch((error) => console.error("Error:", error));
   };
 
-  const [cardData, setCardData] = useState<{
-    id: number;
-    name: string;
-    description: string;
-  } | null>(null);
-
-  // Add a new state variable for the API response
-  const [apiResponse, setApiResponse] = useState<string>("");
-
- const [isDialogOpen, setIsDialogOpen] = useState(false);
-
- const handleClick = () => {
-   setShowImage(true);
-   const formData = new FormData();
-   formData.append("upload_file", response);
-   fetch("http://localhost:8000/detectdisease", {
-     method: "POST",
-     body: formData,
-   })
-     .then((res) => res.text()) // Change this line to handle a text response
-     .then((data) => {
-       console.log(data);
-       setApiResponse(data);
-       // Open the dialog
-       setIsDialogOpen(true);
-     })
-     .catch((error) => console.error("Error:", error));
- };
+  const handleClick = () => {
+    setShowImage(true);
+    const formData = new FormData();
+    formData.append("upload_file", response!); // Non-null assertion
+    fetch("http://localhost:8000/detectdisease", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.text()) // Change this line to handle a text response
+      .then((data) => {
+        console.log(data);
+        setApiResponse(data);
+        // Open the dialog
+        setIsDialogOpen(true);
+      })
+      .catch((error) => console.error("Error:", error));
+  };
 
   const clearContext = () => {
     setMessages([]);
@@ -188,7 +189,11 @@ export default function Garden() {
           </form>
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="picture">Picture</Label>
-            <Input id="picture" type="file" />
+            <Input
+              id="picture"
+              type="file"
+              onChange={(e) => setResponse(e.target.files?.[0] || null)}
+            />
             <Button type="button" onClick={handleClick}>
               Upload
             </Button>
