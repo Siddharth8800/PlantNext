@@ -63,3 +63,10 @@ The FastAPI server will be available at `http://localhost:8000`.
 - Garden Management: Navigate to the Garden page to add and manage your plants.
 - Chatbot: Access the Chatbot from the sidebar to ask questions and receive advice.
 Image Recognition: Use the Upload feature to detect diseases in plant images.
+
+
+## Screenshots
+
+### Homescreen
+![WhatsApp Image 2024-10-03 at 8 18 21 PM](https://github.com/user-attachments/assets/a9f3d07d-a0c1-475a-bdd7-5476b9273696)
+
