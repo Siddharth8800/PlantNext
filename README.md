@@ -68,7 +68,8 @@ Image Recognition: Use the Upload feature to detect diseases in plant images.
 ## Screenshots
 
 ### Homescreen
-![WhatsApp Image 2024-10-03 at 8 18 21 PM](https://github.com/user-attachments/assets/a9f3d07d-a0c1-475a-bdd7-5476b9273696)
+![WhatsApp Image 2024-10-03 at 9 02 56 PM](https://github.com/user-attachments/assets/598ef016-8f8d-4d27-88da-de23fe267f18)
+
 
 
 ### Assistant Screen
