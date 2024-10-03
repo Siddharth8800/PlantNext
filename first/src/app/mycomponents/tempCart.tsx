@@ -1,9 +1,9 @@
 "use client";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import Heading from "./mycomponents/heading";
-import NavBar from "./mycomponents/NavBar";
-import { MainNav } from "./mycomponents/navitems";
+import Heading from "../mycomponents/Header";
+import NavBar from "../mycomponents/NavBar";
+import { MainNav } from "../mycomponents/navitems";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
