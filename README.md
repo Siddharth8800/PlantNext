@@ -15,7 +15,7 @@ It leverages the power of Next.js for the frontend and FastAPI for the backend, 
 ### Prerequisites
 
 - Node.js
-- Python 3.9 or higher
+- Python 3.10 or higher
 - MongoDB
 
 ### Installation
