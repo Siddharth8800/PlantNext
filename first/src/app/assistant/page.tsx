@@ -13,10 +13,21 @@ import { toast } from "sonner";
 import { useLocalStorage } from "../mycomponents/useLocalStorage";
 import axios from "axios";
 
+type CardData = {
+  id: number;
+  name: string;
+  description: string;
+  url: string;
+};
+
+type Message = {
+  text: string;
+  sender: string;
+  cardData?: CardData;
+};
+
 export default function Assistant() {
-  const [messages, setMessages] = useState<{ text: string; sender: string }[]>(
-    []
-  );
+  const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState<string>("");
   const [plantInfo, setPlantInfo] = useState<{
     name: string;
@@ -24,19 +35,19 @@ export default function Assistant() {
   } | null>(null);
   const [image, setImage] = useState("");
   const [showImage, setShowImage] = useState(false);
-  const [response, setResponse] = useState(null);
-  const [cardDataArray, setCardDataArray] = useState<
-    { id: number; name: string; description: string; url: string }[]
-  >([]);
+  const [response, setResponse] = useState<File | null>(null);
+  const [cardDataArray, setCardDataArray] = useState<CardData[]>([]);
 
-  const handleImage = (event) => {
-    setImage(URL.createObjectURL(event.target.files[0]));
-    setResponse(event.target.files[0]);
+  const handleImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setImage(URL.createObjectURL(event.target.files[0]));
+      setResponse(event.target.files[0]);
+    }
   };
 
-  const handleSendMessage = (event) => {
+  const handleSendMessage = (event: React.FormEvent) => {
     event.preventDefault();
-    const userMessage = {
+    const userMessage: Message = {
       text: message,
       sender: "user",
     };
@@ -49,7 +60,7 @@ export default function Assistant() {
     axios
       .post("http://localhost:8000/chat", { question })
       .then((response) => {
-        const reply = {
+        const reply: Message = {
           text:
             typeof response.data === "string"
               ? response.data
@@ -61,15 +72,11 @@ export default function Assistant() {
       .catch((error) => console.error("Error:", error));
   };
 
-  const [cardData, setCardData] = useState<{
-    id: number;
-    name: string;
-    description: string;
-  } | null>(null);
+  const [cardData, setCardData] = useState<CardData | null>(null);
   const handleClick = () => {
     setShowImage(true);
     const formData = new FormData();
-    formData.append("upload_file", response);
+    formData.append("upload_file", response!); // Non-null assertion
     fetch("http://localhost:8000/uploadfile", {
       method: "POST",
       body: formData,
@@ -78,7 +85,7 @@ export default function Assistant() {
       .then((data) => {
         console.log(data);
         const { id, name, description } = data;
-        setCardData({ id, name, description });
+        setCardData({ id, name, description, url: image });
         setCardDataArray((prev) => [
           ...prev,
           { id, name, description, url: image },
@@ -105,8 +112,8 @@ export default function Assistant() {
       .catch((error) => console.error("Error:", error));
   };
 
-  const handleCardClick = (cardData) => {
-    let userMessage = {
+  const handleCardClick = (cardData: CardData) => {
+    let userMessage: Message = {
       text: `Plant: ${cardData.name}, Description: ${cardData.description}`,
       sender: "user",
       cardData,
@@ -131,19 +138,6 @@ export default function Assistant() {
           <div className="chatcontent w-3/4 border-4 min-h-80 rounded-xl m-5">
             <ScrollArea className="w-full rounded-md border">
               <div className="flex flex-col w-full space-x-4 p-4 max-h-80">
-                {/* {messages.map((message, index) => (
-                  <div
-                    key={index}
-                    className={`message ${
-                      message.sender === "user"
-                        ? "bg-green-500 text-white self-end"
-                        : "bg-gray-500 text-white self-start"
-                    } m-2 p-2 rounded-lg`}
-                  >
-                    <p>{message.text}</p>
-                  </div>
-                ))} */}
-
                 {messages.map((message, index) => (
                   <div
                     key={index}
