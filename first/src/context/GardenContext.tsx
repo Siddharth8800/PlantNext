@@ -2,6 +2,7 @@
 "use client";
 
 import React, { createContext, useState } from "react";
+
 export type Plant = {
   id: number;
   name: string;
@@ -9,18 +10,18 @@ export type Plant = {
   url: string;
 };
 
-// type GardenContextType = {
-//   garden: Plant[];
-//   addToGarden: (plant: Plant) => void;
-// };
+type GardenContextType = {
+  garden: Plant[];
+  addToGarden: (plant: Plant) => void;
+};
 
-export const GardenContext = createContext<Plant[]>([]);
+export const GardenContext = createContext<GardenContextType | undefined>(undefined);
 
 export const GardenProvider = ({ children }: { children: React.ReactNode }) => {
-  const [garden, setgarden] = useState<Plant[]>([]);
+  const [garden, setGarden] = useState<Plant[]>([]);
 
   const addToGarden = (plant: Plant) => {
-    setgarden((prevGarden) => [...prevGarden, plant]);
+    setGarden((prevGarden) => [...prevGarden, plant]);
   };
 
   return (
