@@ -70,6 +70,7 @@ Image Recognition: Use the Upload feature to detect diseases in plant images.
 ### Homescreen
 ![WhatsApp Image 2024-10-03 at 8 18 21 PM](https://github.com/user-attachments/assets/a9f3d07d-a0c1-475a-bdd7-5476b9273696)
 
+
 ### Assistant Screen
 Here we use our Python backend server and the trained Yolov8 model to make predictions and a locally hosted LLM Mistral 7B running on Metal API to answer any queries the user has.
 
@@ -79,8 +80,8 @@ Here we use our Python backend server and the trained Yolov8 model to make predi
 
 
 ### Garden Screen
+![WhatsApp Image 2024-10-03 at 8 40 03 PM (2)](https://github.com/user-attachments/assets/b2d19913-1c37-4fe4-b89c-10615fd91832)
 
-![WhatsApp Image 2024-10-03 at 8 18 21 PM](https://github.com/user-attachments/assets/a2343948-d0bf-46ed-9a5b-c34bf203dcea)
 
 
 
