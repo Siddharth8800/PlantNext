@@ -14,11 +14,16 @@ It leverages the power of Next.js for the frontend and FastAPI for the backend, 
 
 ### Prerequisites
 
-- Node.js
+- Node.js 20.0 or higher
 - Python 3.10 or higher
 - MongoDB
+- Docker (optional, for containerized deployment)
 
 ### Installation
+
+You can run PlantNext either locally or using Docker.
+
+#### Local Installation
 
 1. Clone the repository:
 
@@ -26,6 +31,7 @@ It leverages the power of Next.js for the frontend and FastAPI for the backend, 
 git clone https://github.com/siddharth8800/PlantNext.git
 cd PlantNext
 ```
+
 2. Install the frontend dependencies:
 
 ```bash
@@ -47,6 +53,7 @@ Open `http://localhost:3000` to view the frontend application in the browser.
 cd ../api
 pip install -r requirements.txt
 ```
+
 5. Start the FastAPI server:
     
 ```bash
@@ -55,22 +62,49 @@ uvicorn main:app --reload
 
 The FastAPI server will be available at `http://localhost:8000`.
 
+#### Docker Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/siddharth8800/PlantNext.git
+cd PlantNext
+```
+
+2. Build and run the backend Docker container:
+
+```bash
+cd api
+docker build -t plantnext-backend .
+docker run -d -p 8000:8000 plantnext-backend
+```
+
+3. Install and run the frontend:
+
+```bash
+cd ../first
+npm install
+npm run dev
+```
+
+Note: The frontend is currently not containerized and needs to be run locally.
+
 ### Configuration
+
 - Ensure MongoDB is running on your system.
 - You may need to adjust CORS settings in `api/main.py` to match your frontend's URL if it's different from the default.
+- When using Docker, make sure to update any environment variables or configuration files accordingly.
 
 ### Usage
+
 - Garden Management: Navigate to the Garden page to add and manage your plants.
 - Chatbot: Access the Chatbot from the sidebar to ask questions and receive advice.
-Image Recognition: Use the Upload feature to detect diseases in plant images.
-
+- Image Recognition: Use the Upload feature to detect diseases in plant images.
 
 ## Screenshots
 
 ### Homescreen
 ![WhatsApp Image 2024-10-03 at 9 02 56 PM](https://github.com/user-attachments/assets/598ef016-8f8d-4d27-88da-de23fe267f18)
-
-
 
 ### Assistant Screen
 Here we use our Python backend server and the trained Yolov8 model to make predictions and a locally hosted LLM Mistral 7B running on Metal API to answer any queries the user has.
@@ -79,10 +113,5 @@ Here we use our Python backend server and the trained Yolov8 model to make predi
 
 ![WhatsApp Image 2024-10-03 at 8 40 03 PM (1)](https://github.com/user-attachments/assets/11b08a17-2182-46bb-bf3b-52ee3d002fc5)
 
-
 ### Garden Screen
 ![WhatsApp Image 2024-10-03 at 8 40 03 PM (2)](https://github.com/user-attachments/assets/b2d19913-1c37-4fe4-b89c-10615fd91832)
-
-
-
-
